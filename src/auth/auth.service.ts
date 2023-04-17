@@ -19,16 +19,18 @@ export class AuthService{
                   hash,
                 },
               });
-
             // return the new user creation
             return user
         } catch (error) {
-                if (error.code === 'P2002') {
-                  throw new ForbiddenException(
-                    'Credentials taken',
-                  );
-                }
-              throw error;
+          
+            if (error.code === 'P2002') {
+              throw new ForbiddenException(
+                'Credentials taken',
+              );
+            }
+          console.log(error);
+          
+          throw error;
         }
     }
     async login(dto: AuthDto){
@@ -38,6 +40,7 @@ export class AuthService{
                 email: dto.email.toString(), 
             }
         });
+        
         // if user doesn't exist throw error
         if(!user) throw new ForbiddenException("Incorrect Credentials!");
 
